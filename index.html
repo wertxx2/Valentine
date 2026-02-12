@@ -18,19 +18,11 @@
         font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
     }
 
-    .card {
-        backdrop-filter: blur(20px);
-        background: rgba(255, 255, 255, 0.68);
-        padding: 50px 60px;
-        border-radius: 28px;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.21);
-        text-align: center;
-    }
-
     h1 {
         font-weight: 600;
         font-size: 38px;
         margin-bottom: 50px;
+        color: #000000;
     }
 
     .buttons {
@@ -42,8 +34,8 @@
 
     button {
         position: absolute;
-        padding: 12px 28px;
-        font-size: 20px;
+        padding: 30px 40px;
+        font-size: 25px;
         border-radius: 14px;
         border: none;
         cursor: pointer;
@@ -77,39 +69,75 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 20px;
-        font-weight: 550;
-        background: rgba(248, 222, 255, 0.62);
+        font-size: 25px;
+        font-weight: 600;
+        background: rgba(248, 222, 255, 0);
         backdrop-filter: blur(15px);
         border-radius: 20px;
         opacity: 0;
         transition: all 0.4s ease;
         z-index: 5; /* ВЫШЕ кнопок */
         pointer-events: none;
+        white-space: nowrap;
     }
 
     .show {
         opacity: 1;
         pointer-events: auto;
     }
+
+.heart {
+    position: fixed;
+    top: -80px;
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    animation: fall linear forwards;
+    pointer-events: none;
+    z-index: 10;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(110vh);
+        opacity: 1;
+    }
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* центрирует всё по горизонтали */
+}
+
+.pixel-heart {
+    width: 140px;
+    image-rendering: pixelated;
+    margin-bottom: 20px;
+}
+
 </style>
 </head>
 
 <body>
 
 <div class="card">
-    <h1>You will be my Valentine?</h1>
+
+    <img src="heart2.gif" alt="Pixel Heart" class="pixel-heart" id="topHeart">
+
+    <h1>Будешь моей Валентинкой?</h1>
 
     <div class="buttons">
         <button id="yesBtn">ДА</button>
         <button id="noBtn">НЕТ</button>
 
-        <!-- Сообщение теперь внутри buttons -->
         <div id="response" class="message">
-              Ура!! Я люблю тебя!!!💕💕
+             Ура!! Я люблю тебя ксюшка!!💕💕
         </div>
     </div>
 </div>
+
+
 
 <script>
     const noBtn = document.getElementById("noBtn");
@@ -125,7 +153,7 @@
         "Точно уверена?",
         "подумай еще...",
         "последняя попытка...",
-        "Ты абсолютно уверена?",
+        "Ты точно уверена?",
         ")))"
     ];
 
@@ -147,7 +175,7 @@
 
     noBtn.addEventListener("click", () => {
 
-        scale += 1;
+        scale += 0.7;
 
         // Центрируем кнопку ДА
         yesBtn.style.left = "50%";
@@ -166,6 +194,39 @@
     yesBtn.addEventListener("click", () => {
         response.classList.add("show");
     });
+
+    yesBtn.addEventListener("click", () => {
+    response.classList.add("show");
+
+    // Скрываем кнопки
+    yesBtn.style.display = "none";
+    noBtn.style.display = "none";
+
+    // Скрываем заголовок
+    document.querySelector("h1").style.display = "none";
+
+    // Скрываем верхнее сердце
+    document.getElementById("topHeart").style.display = "none";
+
+    // Запускаем дождь из сердечек
+    setInterval(createHeart, 200);
+});
+
+    function createHeart() {
+    const heart = document.createElement("img");
+    heart.src = "heart.png"; // имя файла
+    heart.classList.add("heart");
+
+    heart.style.left = Math.random() * window.innerWidth + "px";
+    heart.style.animationDuration = 4 + Math.random() * 3 + "s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 7000);
+}
+
 </script>
 
 </body>
