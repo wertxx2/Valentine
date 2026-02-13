@@ -6,87 +6,95 @@
 <title>Valentine</title>
 
 <style>
-    * { box-sizing: border-box; }
+* { box-sizing: border-box; }
 
-    body {
-        margin: 0;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: linear-gradient(135deg, rgba(179, 73, 255, 0.44), rgba(230, 126, 255, 0.25));
-        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
-    }
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, rgba(179, 73, 255, 0.44), rgba(230, 126, 255, 0.25));
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+    overflow: hidden;
+}
 
-    h1 {
-        font-weight: 600;
-        font-size: 28px;
-        margin-bottom: 50px;
-        color: #000000;
-        text-align: center;
-        white-space: nowrap;
-    }
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(223, 187, 232, 0.84), rgba(255, 158, 253, 0.66));
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    z-index: 0;
+    pointer-events: none;
+}
 
-    .buttons {
-        position: relative;
-        width: 350px;
-        height: 120px;
-        margin: 0 auto;
-    }
+h1 {
+    font-weight: 600;
+    font-size: 30px;
+    margin-bottom: 50px;
+    color: #000000;
+    text-align: center;
+    white-space: nowrap;
+}
 
-    button {
-        position: absolute;
-        padding: 30px 40px;
-        font-size: 25px;
-        border-radius: 14px;
-        border: none;
-        cursor: pointer;
-        transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-        font-weight: 550;
-        white-space: nowrap;
-    }
+.buttons {
+    position: relative;
+    width: 350px;
+    height: 120px;
+    margin: 0 auto;
+}
 
-    #yesBtn {
-        left: 20px;
-        top: 35px;
-        background: #ee66ff;
-        color: white;
-        box-shadow: 0 8px 20px rgba(175, 96, 255, 0.25);
-        z-index: 2;
-    }
+button {
+    position: absolute;
+    padding: 30px 40px;
+    font-size: 25px;
+    border-radius: 14px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    font-weight: 550;
+    white-space: nowrap;
+}
 
-    #noBtn {
-        left: 220px;
-        top: 35px;
-        background: rgba(120,120,128,0.15);
-        color: #1c1c1e;
-        backdrop-filter: blur(10px);
-        z-index: 1;
-    }
+#yesBtn {
+    left: 20px;
+    top: 35px;
+    background: #ee66ff;
+    color: white;
+    box-shadow: 0 8px 20px rgba(175, 96, 255, 0.25);
+    z-index: 2;
+}
 
-    /* Overlay сообщение */
-    .message {
-        position: absolute;
-        inset: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 23px;
-        font-weight: 600;
-        background: rgba(248, 222, 255, 0);
-        backdrop-filter: blur(15px);
-        border-radius: 20px;
-        opacity: 0;
-        transition: all 0.4s ease;
-        z-index: 5; /* ВЫШЕ кнопок */
-        pointer-events: none;
-        white-space: nowrap;
-    }
+#noBtn {
+    left: 220px;
+    top: 35px;
+    background: rgba(120,120,128,0.15);
+    color: #1c1c1e;
+    backdrop-filter: blur(10px);
+    z-index: 1;
+}
 
-    .show {
-        opacity: 1;
-        pointer-events: auto;
-    }
+.message {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+    font-weight: 600;
+    opacity: 0;
+    transition: all 0.4s ease;
+    z-index: 5;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+.show {
+    opacity: 1;
+    pointer-events: auto;
+}
 
 .heart {
     position: fixed;
@@ -96,7 +104,7 @@
     object-fit: contain;
     animation: fall linear forwards;
     pointer-events: none;
-    z-index: 10;
+    z-index: 1;
 }
 
 @keyframes fall {
@@ -109,7 +117,7 @@
 .card {
     display: flex;
     flex-direction: column;
-    align-items: center; /* центрирует всё по горизонтали */
+    align-items: center;
 }
 
 .pixel-heart {
@@ -118,6 +126,76 @@
     margin-bottom: 20px;
 }
 
+.next-button {
+    position: absolute;
+    bottom: -70px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 18px 35px;
+    font-size: 20px;
+    border-radius: 14px;
+    border: none;
+    cursor: pointer;
+    background: #d86bff;
+    color: white;
+    opacity: 0;
+    transition: 0.4s ease;
+}
+
+.next-button.show-next {
+    opacity: 1;
+}
+
+.fade-out {
+    opacity: 0;
+    transform: scale(0.95);
+    transition: all 0.6s ease;
+}
+
+.new-text {
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.8s ease;
+    z-index: 5;
+    position: relative;
+
+    max-height: 80vh; /* ограничиваем высоту */
+    overflow-y: auto;  /* вертикальная прокрутка */
+    padding: 0 10px;  /* минимальные отступы */
+    box-sizing: border-box;
+    white-space: pre-wrap; /* перенос строк */
+    color: #000; /* текст виден на фоне */
+}
+
+.new-text.show-text {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+body.bg-change::after {
+    opacity: 1;
+}
+
+/* адаптив для маленьких экранов */
+@media (max-width: 480px) {
+    .new-text {
+        font-size: 16px;
+        padding: 0 8px;
+        max-height: 75vh;
+    }
+
+    button {
+        font-size: 18px;
+        padding: 20px 30px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+}
 </style>
 </head>
 
@@ -135,105 +213,103 @@
 
         <div id="response" class="message">
              Ура!! Я люблю тебя ксюшка!!💕💕
+            <button id="nextBtn" class="next-button">ДАЛЬШЕ</button>
         </div>
     </div>
 </div>
 
-
-
 <script>
-    const noBtn = document.getElementById("noBtn");
-    const yesBtn = document.getElementById("yesBtn");
-    const response = document.getElementById("response");
-    const container = document.querySelector(".buttons");
+const nextBtn = document.getElementById("nextBtn");
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const response = document.getElementById("response");
+const container = document.querySelector(".buttons");
 
-    let scale = 1;
-    let clickCount = 0;
+let scale = 1;
+let clickCount = 0;
 
-    const texts = [
-        "Ты уверена?",
-        "Точно уверена?",
-        "подумай еще...",
-        "последняя попытка...",
-        "Ты точно уверена?",
-        ")))"
-    ];
+const texts = [
+    "Ты уверена?",
+    "Точно уверена?",
+    "подумай еще...",
+    "последняя попытка...",
+    "Ты точно уверена?",
+    ")))"
+];
 
-    noBtn.addEventListener("mouseenter", () => {
-        const containerWidth = container.offsetWidth;
-        const containerHeight = container.offsetHeight;
+noBtn.addEventListener("mouseenter", () => {
+    const containerWidth = container.offsetWidth;
+    const containerHeight = container.offsetHeight;
+    const rightZoneStart = containerWidth / 2;
+    const maxX = containerWidth - noBtn.offsetWidth;
+    const maxY = containerHeight - noBtn.offsetHeight;
+    const randomX = rightZoneStart + Math.random() * (maxX - rightZoneStart);
+    const randomY = Math.random() * maxY;
+    noBtn.style.left = randomX + "px";
+    noBtn.style.top = randomY + "px";
+});
 
-        const rightZoneStart = containerWidth / 2;
+noBtn.addEventListener("click", () => {
+    scale += 0.7;
+    yesBtn.style.left = "50%";
+    yesBtn.style.top = "50%";
+    yesBtn.style.transform = `translate(-50%, -50%) scale(${scale})`;
+    if (clickCount < texts.length) {
+        noBtn.textContent = texts[clickCount];
+    } else {
+        noBtn.textContent = texts[texts.length - 1];
+    }
+    clickCount++;
+});
 
-        const maxX = containerWidth - noBtn.offsetWidth;
-        const maxY = containerHeight - noBtn.offsetHeight;
-
-        const randomX = rightZoneStart + Math.random() * (maxX - rightZoneStart);
-        const randomY = Math.random() * maxY;
-
-        noBtn.style.left = randomX + "px";
-        noBtn.style.top = randomY + "px";
-    });
-
-    noBtn.addEventListener("click", () => {
-
-        scale += 0.7;
-
-        // Центрируем кнопку ДА
-        yesBtn.style.left = "50%";
-        yesBtn.style.top = "50%";
-        yesBtn.style.transform = `translate(-50%, -50%) scale(${scale})`;
-
-        if (clickCount < texts.length) {
-            noBtn.textContent = texts[clickCount];
-        } else {
-            noBtn.textContent = texts[texts.length - 1];
-        }
-
-        clickCount++;
-    });
-
-    yesBtn.addEventListener("click", () => {
-        response.classList.add("show");
-    });
-
-    yesBtn.addEventListener("click", () => {
+yesBtn.addEventListener("click", () => {
     response.classList.add("show");
-
-    // Скрываем кнопки
     yesBtn.style.display = "none";
     noBtn.style.display = "none";
-
-    // Скрываем заголовок
     document.querySelector("h1").style.display = "none";
-
-    // Скрываем верхнее сердце
     document.getElementById("topHeart").style.display = "none";
-
-    // Запускаем дождь из сердечек
+    nextBtn.classList.add("show-next");
     setInterval(createHeart, 200);
 });
 
-    function createHeart() {
+function createHeart() {
     const heart = document.createElement("img");
-    heart.src = "heart.png"; // имя файла
+    heart.src = "heart.png";
     heart.classList.add("heart");
-
     heart.style.left = Math.random() * window.innerWidth + "px";
     heart.style.animationDuration = 4 + Math.random() * 3 + "s";
-
     document.body.appendChild(heart);
-
-    setTimeout(() => {
-        heart.remove();
-    }, 7000);
+    setTimeout(() => { heart.remove(); }, 7000);
 }
 
+nextBtn.addEventListener("click", () => {
+    const card = document.querySelector(".card");
+    card.classList.add("fade-out");
+
+    setTimeout(() => {
+        card.remove();
+        document.querySelectorAll(".heart").forEach(heart => heart.remove());
+
+        const newText = document.createElement("div");
+        newText.classList.add("new-text");
+        newText.textContent = "Любимая Ксюшка,\n\n" +
+            "в этот особенный день я хочу сказать тебе спасибо за то, что ты есть в моей жизни — за твоё тепло, за твою искренность, за твою заботу, которую я ощущаю каждый день. С тобой мир становится лучше, добрее и светлее\n\n" +
+            "Рядом с тобой я чувствую уверенность и спокойствие. Ты наполняешь мою жизнь смыслом и вдохновением, даёшь силы двигаться вперёд и верить в себя.\n\n" +
+            "Мне так важно, что рядом со мной человек, которому можно доверять и с которым можно делиться всем, что на сердце. За это я бесконечно благодарен тебе.\n\n" +
+            "Я люблю твой смех, твою улыбку, твой взгляд. Люблю наши разговоры, даже самые простые. Люблю моменты тишины рядом с тобой. Люблю то, как ты радуешься мелочам и как умеешь сделать мой день лучше одним словом или сообщением.\n\n" +
+            "В этот День святого Валентина я хочу пообещать тебе быть рядом, поддерживать, заботиться и беречь то, что у нас есть. Я хочу, чтобы ты всегда чувствовала себя любимой, нужной и самой особенной. Потому что для меня ты именно такая.\n\n" +
+            "Спасибо тебе за всё, моя любимая 💕";
+
+        document.body.appendChild(newText);
+        document.body.classList.add("bg-change");
+
+        setTimeout(() => {
+            newText.classList.add("show-text");
+        }, 50);
+
+    }, 600);
+});
 </script>
 
 </body>
 </html>
-
-
-
-
